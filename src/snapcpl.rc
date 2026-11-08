@@ -1,0 +1,21 @@
+/*
+ * SNAPCPL.RC - Resources for SNAPCFG.CPL
+ *
+ * Copyright (c) 2026 Juan Sicilia
+ * SPDX-License-Identifier: MIT
+ */
+#include <windows.h>
+#include "lang.h"
+#include "resource.h"
+
+#define VI_DESCRIPTION "SnapWin Control Panel applet"
+#define VI_FILENAME    "SNAPCFG.CPL"
+#define VI_FILETYPE    VFT_DLL
+#include "version.rc"
+
+IDI_SNAPWIN ICON "snapwin.ico"
+
+/* User interface texts, one file per language (English first) */
+#define RC_SNAPCPL
+#include "lang/en.rc"
+#include "lang/es.rc"

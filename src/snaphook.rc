@@ -1,0 +1,12 @@
+/*
+ * SNAPHOOK.RC - Resources for SNAPHOOK.DLL (version information only)
+ *
+ * Copyright (c) 2026 Juan Sicilia
+ * SPDX-License-Identifier: MIT
+ */
+#include <windows.h>
+
+#define VI_DESCRIPTION "SnapWin system hooks"
+#define VI_FILENAME    "SNAPHOOK.DLL"
+#define VI_FILETYPE    VFT_DLL
+#include "version.rc"

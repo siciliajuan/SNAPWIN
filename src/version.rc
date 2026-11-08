@@ -1,0 +1,43 @@
+/*
+ * VERSION.RC - VERSIONINFO resource shared by all four binaries.
+ *
+ * Include it from a binary's .rc after defining:
+ *   VI_DESCRIPTION   e.g. "SnapWin hooks"
+ *   VI_FILENAME      e.g. "SNAPHOOK.DLL"
+ *   VI_FILETYPE      VFT_APP or VFT_DLL
+ *
+ * Copyright (c) 2026 Juan Sicilia
+ * SPDX-License-Identifier: MIT
+ */
+#include <ver.h>
+#include "version.h"
+
+1 VERSIONINFO
+FILEVERSION     SNAPWIN_VER_MAJOR, SNAPWIN_VER_MINOR, 0, 0
+PRODUCTVERSION  SNAPWIN_VER_MAJOR, SNAPWIN_VER_MINOR, 0, 0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0
+FILEOS          VOS_DOS_WINDOWS16
+FILETYPE        VI_FILETYPE
+FILESUBTYPE     0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"            /* U.S. English, Windows ANSI */
+        BEGIN
+            VALUE "CompanyName",      SNAPWIN_AUTHOR "\0"
+            VALUE "FileDescription",  VI_DESCRIPTION "\0"
+            VALUE "FileVersion",      SNAPWIN_VERSION "\0"
+            VALUE "InternalName",     VI_FILENAME "\0"
+            VALUE "LegalCopyright",   SNAPWIN_COPYRIGHT ". " SNAPWIN_LICENSE ".\0"
+            VALUE "OriginalFilename", VI_FILENAME "\0"
+            VALUE "ProductName",      "SnapWin\0"
+            VALUE "ProductVersion",   SNAPWIN_VERSION "\0"
+            VALUE "Comments",         "Window snapping for Windows 3.1x. " SNAPWIN_URL "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

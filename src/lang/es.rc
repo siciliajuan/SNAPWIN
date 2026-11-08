@@ -1,0 +1,156 @@
+/*
+ * ES.RC - Español / Spanish.
+
+ * Encoding: Windows-1252 (ANSI), the native code page of Windows 3.1.
+ *
+ * Included by each binary's .rc, which defines RC_SNAPCPL, RC_SETUP or
+ * RC_SNAPWIN to select its section. "%s" marks are filled in at run time;
+ * keep them, in the same order. "\n" is a line break.
+ * Win16 limits each string to 255 characters: split longer texts (as
+ * IDS_SETUP_DONE/IDS_SETUP_DONE2). tests/langtest.c checks this.
+ *
+ * Copyright (c) 2026 Juan Sicilia
+ * SPDX-License-Identifier: MIT
+ */
+#undef  L_STR
+#undef  L_DLG
+#define L_STR  (LANG_ES * LANG_STRIDE)   /* string ID offset */
+#define L_DLG  LANG_ES                   /* dialog ID offset */
+
+STRINGTABLE
+BEGIN
+    L_STR + IDS_LANG_NAME, "Español"   /* this language, in this language */
+END
+
+#ifdef RC_SNAPCPL
+STRINGTABLE
+BEGIN
+    L_STR + IDS_CPL_NAME,      "SnapWin"
+    L_STR + IDS_CPL_INFO,      "Ajusta las ventanas a media pantalla o a un cuadrante"
+    L_STR + IDS_CPL_CAPTION,   "SnapWin %s - Ajuste de ventanas"
+    L_STR + IDS_CPL_LICENSE,   "%s - Licencia MIT"
+    L_STR + IDS_CPL_RUNNING,   "Estado: SnapWin está activo."
+    L_STR + IDS_CPL_STOPPED,   "Estado: SnapWin no está en ejecución (se iniciará al pulsar Aceptar)."
+    L_STR + IDS_CPL_ERR_NOMOD, "El atajo %s debe incluir Ctrl o Alt;\nsi no, esa tecla dejaría de funcionar en todos los programas."
+    L_STR + IDS_CPL_ERR_DUP,   "El atajo %s y el %s son iguales."
+    L_STR + IDS_CPL_LANG_AUTO, "Automático (según Windows)"
+
+    /* Row names, as they appear inside IDS_CPL_ERR_NOMOD / IDS_CPL_ERR_DUP */
+    L_STR + IDS_CPL_ROW_BASE + 0, "de la mitad izquierda"
+    L_STR + IDS_CPL_ROW_BASE + 1, "de la mitad derecha"
+    L_STR + IDS_CPL_ROW_BASE + 2, "del cuadrante superior izquierdo"
+    L_STR + IDS_CPL_ROW_BASE + 3, "del cuadrante superior derecho"
+    L_STR + IDS_CPL_ROW_BASE + 4, "del cuadrante inferior izquierdo"
+    L_STR + IDS_CPL_ROW_BASE + 5, "del cuadrante inferior derecho"
+
+    /* Key names, in the order of g_keys[] in snapcpl.c */
+    L_STR + IDS_KEY_BASE + 0 , "(ninguna)"
+    L_STR + IDS_KEY_BASE + 1 , "Flecha izquierda"
+    L_STR + IDS_KEY_BASE + 2 , "Flecha derecha"
+    L_STR + IDS_KEY_BASE + 3 , "Flecha arriba"
+    L_STR + IDS_KEY_BASE + 4 , "Flecha abajo"
+    L_STR + IDS_KEY_BASE + 5 , "Inicio"
+    L_STR + IDS_KEY_BASE + 6 , "Fin"
+    L_STR + IDS_KEY_BASE + 7 , "Re Pág"
+    L_STR + IDS_KEY_BASE + 8 , "Av Pág"
+    L_STR + IDS_KEY_BASE + 9 , "Insert"
+    L_STR + IDS_KEY_BASE + 10, "Supr"
+    L_STR + IDS_KEY_BASE + 11, "F1"
+    L_STR + IDS_KEY_BASE + 12, "F2"
+    L_STR + IDS_KEY_BASE + 13, "F3"
+    L_STR + IDS_KEY_BASE + 14, "F4"
+    L_STR + IDS_KEY_BASE + 15, "F5"
+    L_STR + IDS_KEY_BASE + 16, "F6"
+    L_STR + IDS_KEY_BASE + 17, "F7"
+    L_STR + IDS_KEY_BASE + 18, "F8"
+    L_STR + IDS_KEY_BASE + 19, "F9"
+    L_STR + IDS_KEY_BASE + 20, "F10"
+    L_STR + IDS_KEY_BASE + 21, "F11"
+    L_STR + IDS_KEY_BASE + 22, "F12"
+    L_STR + IDS_KEY_BASE + 23, "Teclado num. 7"
+    L_STR + IDS_KEY_BASE + 24, "Teclado num. 9"
+    L_STR + IDS_KEY_BASE + 25, "Teclado num. 1"
+    L_STR + IDS_KEY_BASE + 26, "Teclado num. 3"
+    L_STR + IDS_KEY_BASE + 27, "Teclado num. 4"
+    L_STR + IDS_KEY_BASE + 28, "Teclado num. 6"
+END
+
+IDD_CONFIG + L_DLG DIALOG 20, 16, 274, 230
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SnapWin"                 /* replaced at run time (IDS_CPL_CAPTION) */
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Al arrastrar y soltar una ventana", -1, 6, 4, 262, 42
+    CONTROL         "En el borde izquierdo o derecho: ocupa media pantalla",
+                    IDC_DRAG, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 16, 250, 10
+    CONTROL         "En una esquina: ocupa ese cuadrante de la pantalla",
+                    IDC_CORNERS, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 30, 250, 10
+
+    GROUPBOX        "Atajos de teclado (ventana activa)", -1, 6, 52, 262, 112
+    LTEXT           "Mitad izquierda:", -1, 12, 68, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(0),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 67, 26, 10
+    CONTROL         "Alt",   IDC_ALT(0),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 67, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(0), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 67, 34, 10
+    COMBOBOX        IDC_KEY(0), 168, 66, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Mitad derecha:", -1, 12, 84, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(1),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 83, 26, 10
+    CONTROL         "Alt",   IDC_ALT(1),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 83, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(1), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 83, 34, 10
+    COMBOBOX        IDC_KEY(1), 168, 82, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Arriba a la izq.:", -1, 12, 100, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(2),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 99, 26, 10
+    CONTROL         "Alt",   IDC_ALT(2),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 99, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(2), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 99, 34, 10
+    COMBOBOX        IDC_KEY(2), 168, 98, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Arriba a la der.:", -1, 12, 116, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(3),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 115, 26, 10
+    CONTROL         "Alt",   IDC_ALT(3),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 115, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(3), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 115, 34, 10
+    COMBOBOX        IDC_KEY(3), 168, 114, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Abajo a la izq.:", -1, 12, 132, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(4),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 131, 26, 10
+    CONTROL         "Alt",   IDC_ALT(4),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 131, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(4), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 131, 34, 10
+    COMBOBOX        IDC_KEY(4), 168, 130, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Abajo a la der.:", -1, 12, 148, 66, 8
+    CONTROL         "Ctrl",  IDC_CTRL(5),  "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 80, 147, 26, 10
+    CONTROL         "Alt",   IDC_ALT(5),   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 108, 147, 22, 10
+    CONTROL         "Mayús", IDC_SHIFT(5), "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 132, 147, 34, 10
+    COMBOBOX        IDC_KEY(5), 168, 146, 94, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "Idioma:", -1, 8, 172, 60, 8
+    COMBOBOX        IDC_LANG, 70, 170, 120, 60, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "", IDC_STATUS, 6, 188, 262, 18
+    LTEXT           "", IDC_COPYRIGHT, 6, 213, 148, 8, WS_DISABLED
+    DEFPUSHBUTTON   "Aceptar", IDOK, 158, 210, 52, 14
+    PUSHBUTTON      "Cancelar", IDCANCEL, 216, 210, 52, 14
+END
+#endif /* RC_SNAPCPL */
+
+#ifdef RC_SETUP
+STRINGTABLE
+BEGIN
+    L_STR + IDS_SETUP_TITLE,     "Instalación de SnapWin"
+    L_STR + IDS_SETUP_NEEDWIN31, "SnapWin necesita Windows 3.1 o superior."
+    L_STR + IDS_SETUP_ASK,       "¿Instalar SnapWin %s?\n\nAjusta las ventanas a media pantalla\no a un cuadrante en Windows 3.1x.\n\n%s\nSoftware libre, licencia MIT."
+    L_STR + IDS_SETUP_ALREADY,   "SnapWin ya está instalado.\n\nSí = Reinstalar / actualizar a %s\nNo = Desinstalar\nCancelar = Salir"
+    L_STR + IDS_SETUP_COPYFAIL,  "No se pudieron copiar los ficheros al directorio SYSTEM de Windows.\nComprueba que SNAPHOOK.DLL, SNAPWIN.EXE y SNAPCFG.CPL están en el mismo directorio que SETUP.EXE."
+    L_STR + IDS_SETUP_DONE,      "SnapWin se ha instalado y ya está funcionando.\n\n- Arrastra una ventana al borde izquierdo o derecho: media pantalla.\n- Arrástrala a una esquina: ocupa ese cuadrante."
+    L_STR + IDS_SETUP_DONE2,     "\n- Ctrl+Alt+Flecha izquierda / derecha: mitades.\n- Ctrl+Alt+Inicio / Re Pág / Fin / Av Pág: cuadrantes.\n\nPuedes cambiar los atajos en el Panel de control (icono SnapWin).\nSnapWin se iniciará solo cada vez que arranques Windows."   /* appended to IDS_SETUP_DONE */
+    L_STR + IDS_SETUP_REMOVED,   "SnapWin se ha desinstalado."
+    L_STR + IDS_SETUP_PARTIAL,   "SnapWin se ha desactivado, pero algún fichero no se pudo borrar.\nCierra el Panel de control y vuelve a ejecutar SETUP.EXE."
+END
+#endif /* RC_SETUP */
+
+#ifdef RC_SNAPWIN
+STRINGTABLE
+BEGIN
+    L_STR + IDS_SNAP_NOHOOKS, "No se pudieron instalar los ganchos del sistema.\nSnapWin necesita Windows 3.1 o superior."
+END
+#endif /* RC_SNAPWIN */

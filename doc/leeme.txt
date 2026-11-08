@@ -1,0 +1,87 @@
+SnapWin 2.3 - Ajuste de ventanas para Windows 3.1 / 3.11
+=========================================================
+
+QUÉ HACE
+Arrastra una ventana y suéltala:
+- En el borde izquierdo o derecho de la pantalla: ocupa esa mitad.
+- En una esquina: ocupa ese cuadrante (la cuarta parte de la pantalla).
+  Cuenta como esquina soltar en el borde izquierdo/derecho cerca de
+  arriba o abajo, o en el borde superior/inferior cerca de un lado
+  (la zona de esquina mide 1/8 de la pantalla).
+
+Con el teclado (ventana activa; configurable):
+- Ctrl+Alt+Flecha izquierda ....... mitad izquierda
+- Ctrl+Alt+Flecha derecha ......... mitad derecha
+- Ctrl+Alt+Inicio ................. cuadrante superior izquierdo
+- Ctrl+Alt+Re Pág ................. cuadrante superior derecho
+- Ctrl+Alt+Fin .................... cuadrante inferior izquierdo
+- Ctrl+Alt+Av Pág ................. cuadrante inferior derecho
+  (Inicio, Re Pág, Fin y Av Pág forman un cuadrado con la misma
+  disposición que los cuadrantes. Con Bloq Num apagado también valen
+  las teclas 7, 9, 1 y 3 del teclado numérico.)
+
+Las ventanas de tamaño fijo (Calculadora, cuadros de diálogo) no se
+redimensionan: solo se pegan al lado o a la esquina correspondiente.
+Las ventanas MDI (documentos dentro de un programa) no se tocan.
+
+REQUISITOS
+Windows 3.1, 3.11 o Windows para Trabajo en Grupo. (No funciona en 3.0.)
+
+INSTALACIÓN Y ACTUALIZACIÓN
+1. Cierra el Panel de control si está abierto.
+2. En el Administrador de programas: Archivo > Ejecutar > SETUP.EXE
+3. Si ya tenías una versión anterior, elige "Sí" (Reinstalar / actualizar).
+   Tu configuración se conserva, también la de las versiones 1.x/2.x en
+   español.
+
+SETUP.EXE copia SNAPHOOK.DLL, SNAPWIN.EXE y SNAPCFG.CPL al directorio
+SYSTEM de Windows y añade SNAPWIN.EXE a la línea "load=" de WIN.INI.
+Los demás programas de esa línea se conservan.
+SnapWin no tiene ventana ni icono, y no aparece en la Lista de tareas.
+
+CONFIGURACIÓN
+Panel de control > icono "SnapWin":
+- Activar o desactivar por separado el ajuste a mitades (bordes) y a
+  cuadrantes (esquinas).
+- Elegir la tecla y los modificadores (Ctrl, Alt, Mayús) de cada uno de
+  los seis atajos, o "(ninguna)" para desactivarlo.
+  Cada atajo debe llevar Ctrl o Alt, y no puede haber dos iguales.
+  Se recomienda Ctrl+Alt+tecla: los atajos solo con Alt pueden activar
+  la barra de menús del programa.
+- Elegir el idioma: Automático (según el idioma de Windows, en Panel de
+  control > Internacional), English o Español.
+Los cambios se aplican al momento (el idioma, la próxima vez que se abra
+el applet). Se guardan en WINDOWS\SNAPWIN.INI.
+
+IDIOMA
+SnapWin está en inglés y en español. Usa el español si Windows está en
+español, y el inglés en cualquier otro caso. README.TXT es este mismo
+fichero en inglés.
+
+DESINSTALACIÓN
+Ejecuta otra vez SETUP.EXE y elige "No" (Desinstalar). SNAPWIN.INI se
+conserva.
+Para pararlo temporalmente: Archivo > Ejecutar > SNAPWIN.EXE /QUIT
+
+FICHEROS
+SNAPHOOK.DLL  Ganchos del sistema (teclado y mensajes de ventana)
+SNAPWIN.EXE   Programa residente invisible que recoloca las ventanas
+SNAPCFG.CPL   Applet del Panel de control
+SETUP.EXE     Instalador / desinstalador
+README.TXT    Este fichero en inglés
+LEEME.TXT     Este fichero
+LICENSE.TXT   Licencia (MIT, en inglés)
+
+Código fuente, historial y actualizaciones:
+https://github.com/<user>/snapwin
+
+AUTOR Y LICENCIA
+Copyright (c) 2026 Juan Sicilia
+
+SnapWin es software libre, publicado con licencia MIT: puedes usarlo,
+copiarlo, modificarlo y compartirlo libremente, también en versiones
+modificadas, siempre que se conserven este aviso de copyright y la
+licencia.
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO.
+El texto completo de la licencia está en LICENSE.TXT.
