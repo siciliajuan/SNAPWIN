@@ -3,8 +3,9 @@
 # Copyright (c) 2026 Juan Sicilia
 # SPDX-License-Identifier: MIT
 #
-# Works on any host Open Watcom runs on (DOS, Windows, OS/2, Linux):
-#   set WATCOM and INCLUDE (see README.md), then from this directory run
+# Uses only portable wmake features, so it should work on any host Open
+# Watcom runs on (tested on Linux). Set WATCOM and INCLUDE (see README.md),
+# then from this directory run
 #
 #   wmake            build everything into dist/
 #   wmake tests      also build the test programs into build/

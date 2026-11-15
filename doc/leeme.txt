@@ -1,4 +1,4 @@
-SnapWin 2.5 - Ajuste de ventanas para Windows 3.1 / 3.11
+SnapWin 2.6 - Ajuste de ventanas para Windows 3.1 / 3.11
 =========================================================
 
 QUÉ HACE
@@ -26,8 +26,10 @@ Con el teclado (ventana activa; configurable):
   las teclas 7, 9, 1 y 3 del teclado numérico.)
 
 Las ventanas de tamaño fijo (Calculadora, cuadros de diálogo) no se
-redimensionan: solo se pegan al lado o a la esquina correspondiente, y
-nunca se maximizan ni se minimizan.
+redimensionan: solo se pegan al lado o a la esquina correspondiente.
+Solo se pueden maximizar las ventanas con botón de maximizar, y solo se
+pueden minimizar las que tienen botón de minimizar (la Calculadora, por
+ejemplo, se puede minimizar pero no maximizar).
 Las ventanas MDI (documentos dentro de un programa) no se tocan.
 
 REQUISITOS
@@ -79,7 +81,7 @@ LEEME.TXT     Este fichero
 LICENSE.TXT   Licencia (MIT, en inglés)
 
 Código fuente, historial y actualizaciones:
-https://github.com/<user>/snapwin
+https://github.com/siciliajuan/snapwin
 
 AUTOR Y LICENCIA
 Copyright (c) 2026 Juan Sicilia

@@ -7,7 +7,7 @@
 #include <windows.h>
 #include "lang.h"
 
-#define VI_DESCRIPTION "SnapWin resident program"
+#define VI_DESCRIPTION "SnapWin resident program\0"   /* 24 chars: see version.rc */
 #define VI_FILENAME    "SNAPWIN.EXE"
 #define VI_FILETYPE    VFT_APP
 #include "version.rc"

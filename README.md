@@ -4,17 +4,17 @@ Window snapping for **Windows 3.1 / 3.11**: drag a window to a screen edge
 or corner, or press a shortcut, and it fills half or a quarter of the screen,
 or is maximized; shortcuts also restore and minimize it.
 
-**[Download the latest version](https://github.com/<user>/snapwin/releases/latest)**
-(`SNAPW25.ZIP`, ready to install: no compiling needed)
+**[Download the latest version](https://github.com/siciliajuan/snapwin/releases/latest)**
+(`SNAPW26.ZIP`, ready to install: no compiling needed)
 
-![SnapWin applet in Control Panel](doc/applet.png)
+![SnapWin settings dialog, opened from Control Panel (screenshot taken under Wine)](doc/applet.png)
 
 - **Halves**: drop a window on the left or right edge of the screen.
 - **Quarters**: drop it in a corner.
 - **Maximize**: drop it on the top edge, away from the corners.
 - **Shortcuts** for the active window (defaults; configurable):
 
-  | Shortcut               | Position              |
+  | Shortcut               | Action                |
   |------------------------|-----------------------|
   | Ctrl+Alt+Left Arrow    | Left half             |
   | Ctrl+Alt+Right Arrow   | Right half            |
@@ -40,7 +40,7 @@ is tested under Wine (see [Testing](#testing)).
 ## Installing
 
 1. Download `SNAPWxx.ZIP` from the
-   [latest release](https://github.com/<user>/snapwin/releases/latest).
+   [latest release](https://github.com/siciliajuan/snapwin/releases/latest).
 2. Unzip it (on a modern PC or with PKUNZIP) and copy the files to a
    floppy or to a directory on the Windows 3.1 machine.
 3. In Program Manager choose **File > Run > SETUP.EXE**.
@@ -52,12 +52,14 @@ Run `SETUP.EXE` again to upgrade or uninstall. End-user documentation is in
 
 ## Building
 
-You need [Open Watcom](https://github.com/open-watcom/open-watcom-v2)
-1.9 or 2.0. It runs on DOS, Windows, OS/2 and Linux, and can build Win16
-programs from any of them.
+You need [Open Watcom](https://github.com/open-watcom/open-watcom-v2).
+The build is tested with **Open Watcom 2.0 on Linux**. Open Watcom also
+runs on Windows, DOS and OS/2, and the `makefile` only uses portable
+`wmake` features, so those hosts (and Open Watcom 1.9) should work too,
+but they have not been tested yet.
 
 ```sh
-# Linux / macOS (adjust the path; use binl instead of binl64 on 32-bit hosts)
+# Linux (adjust the path; use binl instead of binl64 on 32-bit hosts)
 export WATCOM=/opt/watcom
 export PATH=$WATCOM/binl64:$PATH
 export INCLUDE=$WATCOM/h:$WATCOM/h/win
@@ -65,7 +67,7 @@ wmake
 ```
 
 ```bat
-rem Windows (or DOS with binw instead of binnt)
+rem Windows (untested; on DOS use BINW instead of BINNT)
 set WATCOM=C:\WATCOM
 set PATH=%WATCOM%\BINNT;%PATH%
 set INCLUDE=%WATCOM%\H;%WATCOM%\H\WIN
@@ -249,8 +251,15 @@ These caused real bugs or near misses in this project:
   the stack belongs to whichever task called into the DLL.
 - **255-character strings.** `STRINGTABLE` entries are length-prefixed
   with a single byte. The resource compiler truncates longer strings
-  without a warning; the Spanish "installed" message was cut in half until
-  it was split in two. `tests/langtest.c` now catches this.
+  without a warning; the Spanish "installed" message was cut off until
+  it was split into several strings. `tests/langtest.c` now catches this.
+- **Version information and wrc.** Open Watcom's resource compiler
+  declares each `VERSIONINFO` string with room for its terminating NUL but
+  does not write the NUL, relying on padding to 4 bytes. A text whose
+  length is a multiple of 4 is left unterminated and every following field
+  is misplaced: in 2.2-2.5 Windows' `VER.DLL` could read only the first
+  field. `src/version.rc` explains the workaround (an explicit `\0` inside
+  the string for those lengths); `tests/vercheck.py` checks it.
 - **Swallowed shortcuts.** The keyboard hook returns 1 for a matching key,
   so the application never sees it. That is why the applet refuses
   shortcuts without Ctrl or Alt: a bare key would stop working everywhere.
@@ -266,6 +275,15 @@ binaries (or install first) and run them:
 | `cpltest.exe`  | Loads `SYSTEM\SNAPCFG.CPL` with SnapWin running and drives `CPlApplet` like Control Panel, opening the dialog. |
 | `modtest.exe`  | Regression test for the module-name clash. Prints `PASS`/`FAIL` with `OutputDebugString`. |
 | `langtest.exe` | Checks every string in every language in the three binaries: reports missing translations and truncated strings, then `PASS`/`FAIL`. |
+
+`tests/vercheck.py` runs on the build machine (Python 3), not on Windows 3.1.
+It reads the version information of the binaries the way Windows'
+`VER.DLL` does and checks that every field is intact and matches
+`src/version.h`:
+
+```sh
+python3 tests/vercheck.py dist/*.exe dist/*.dll dist/*.cpl
+```
 
 **On real hardware** (best), just install with `SETUP.EXE` and use any
 application.
@@ -298,6 +316,7 @@ Manual checklist before a release:
 - [ ] Upgrade over the previous release while it is running; settings kept
 - [ ] Uninstall while running; `load=` keeps other programs
 - [ ] `langtest.exe` passes
+- [ ] `tests/vercheck.py` passes
 - [ ] Setup and applet in English (English Windows) and in Spanish
       (Spanish Windows); the applet's Language list overrides it
 
@@ -313,8 +332,10 @@ Manual checklist before a release:
   3.1. `.gitattributes` stores them as UTF-8 in the repository, so they
   display correctly online.
 - To release a new version, update `src/version.h` (major, minor and
-  string) and the first line of `doc/readme.txt` and `doc/leeme.txt`, and
-  add an entry to `CHANGELOG.md`.
+  string), the first line of `doc/readme.txt` and `doc/leeme.txt`, and the
+  zip name in the download link at the top of this file; add an entry to
+  `CHANGELOG.md`; and run `tests/vercheck.py` (a new version string may
+  need the workaround described in `src/version.rc`).
 - New source files start with the copyright and SPDX header used in the
   existing ones.
 
@@ -329,4 +350,4 @@ SnapWin is free software, released under the [MIT License](LICENSE).
 You may use, copy, modify and redistribute it, including modified
 versions, as long as the copyright notice and the license text are kept.
 
-Copyright (c) 2026 Juan Sicilia — <https://github.com/<user>/snapwin>
+Copyright (c) 2026 Juan Sicilia — <https://github.com/siciliajuan/snapwin>

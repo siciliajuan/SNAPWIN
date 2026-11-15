@@ -6,6 +6,22 @@
  *   VI_FILENAME      e.g. "SNAPHOOK.DLL"
  *   VI_FILETYPE      VFT_APP or VFT_DLL
  *
+ * IMPORTANT - Open Watcom wrc bug: wrc declares every string value with
+ * room for its terminating NUL but does not write the NUL; it only pads
+ * the text to a multiple of 4 bytes. When a text's length is a multiple
+ * of 4, nothing is padded, the NUL is missing and every following field
+ * is misplaced. The workaround depends on the length of each text:
+ *
+ *   length not a multiple of 4  ->  plain:            "SnapWin"
+ *   length a multiple of 4      ->  explicit NUL:     "Juan Sicilia\0"
+ *
+ * The explicit "\0" must be inside the same string: wrc drops it when
+ * strings are concatenated ("Juan Sicilia" "\0" does not work). That is
+ * why some texts below are written out instead of built from version.h.
+ * After changing any text here, in version.h or in VI_*, run
+ *   python3 tests/vercheck.py dist/*.exe dist/*.dll dist/*.cpl
+ * which checks every field and that the copies match version.h.
+ *
  * Copyright (c) 2026 Juan Sicilia
  * SPDX-License-Identifier: MIT
  */
@@ -25,15 +41,17 @@ BEGIN
     BEGIN
         BLOCK "040904E4"            /* U.S. English, Windows ANSI */
         BEGIN
-            VALUE "CompanyName",      SNAPWIN_AUTHOR "\0"
-            VALUE "FileDescription",  VI_DESCRIPTION "\0"
-            VALUE "FileVersion",      SNAPWIN_VERSION "\0"
-            VALUE "InternalName",     VI_FILENAME "\0"
-            VALUE "LegalCopyright",   SNAPWIN_COPYRIGHT ". " SNAPWIN_LICENSE ".\0"
-            VALUE "OriginalFilename", VI_FILENAME "\0"
-            VALUE "ProductName",      "SnapWin\0"
-            VALUE "ProductVersion",   SNAPWIN_VERSION "\0"
-            VALUE "Comments",         "Window snapping for Windows 3.1x. " SNAPWIN_URL "\0"
+            /* 12 characters: explicit NUL. Must equal SNAPWIN_AUTHOR. */
+            VALUE "CompanyName",      "Juan Sicilia\0"
+            VALUE "FileDescription",  VI_DESCRIPTION
+            VALUE "FileVersion",      SNAPWIN_VERSION
+            VALUE "InternalName",     VI_FILENAME
+            VALUE "LegalCopyright",   SNAPWIN_COPYRIGHT ". " SNAPWIN_LICENSE "."
+            VALUE "OriginalFilename", VI_FILENAME
+            VALUE "ProductName",      "SnapWin"
+            VALUE "ProductVersion",   SNAPWIN_VERSION
+            /* 72 characters: explicit NUL. Must end with SNAPWIN_URL. */
+            VALUE "Comments",         "Window snapping for Windows 3.1x. https://github.com/siciliajuan/snapwin\0"
         END
     END
     BLOCK "VarFileInfo"

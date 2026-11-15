@@ -9,12 +9,12 @@
 #define VERSION_H
 
 #define SNAPWIN_VER_MAJOR  2
-#define SNAPWIN_VER_MINOR  5
-#define SNAPWIN_VERSION    "2.5"
+#define SNAPWIN_VER_MINOR  6
+#define SNAPWIN_VERSION    "2.6"
 
 #define SNAPWIN_AUTHOR     "Juan Sicilia"
 #define SNAPWIN_COPYRIGHT  "Copyright (c) 2026 Juan Sicilia"
 #define SNAPWIN_LICENSE    "MIT License"
-#define SNAPWIN_URL        "https://github.com/<user>/snapwin"
+#define SNAPWIN_URL        "https://github.com/siciliajuan/snapwin"
 
 #endif

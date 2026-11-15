@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.6
+
+- The project URL (https://github.com/siciliajuan/snapwin) replaces a
+  placeholder in the readmes, the `README.md` links and the version
+  information of every binary.
+- Documentation corrections: windows can be maximized or minimized only if
+  they have that button (the Calculator can be minimized), the build is
+  documented as tested with Open Watcom 2.0 on Linux, and other details.
+- Repository: `.gitattributes` and `.gitignore` added; the Windows-1252
+  files are stored as UTF-8 so they display correctly on GitHub.
+- Fixed: the version information embedded in the binaries was corrupt
+  since 2.2 (an Open Watcom resource compiler bug), so Windows' `VER.DLL`
+  could read only the first field. All fields now read correctly; the new
+  `tests/vercheck.py` checks them.
+- No changes in how SnapWin works.
+
 ## 2.5
 
 - Ctrl+Alt+F now only maximizes (in 2.4 it also restored a maximized
@@ -44,8 +60,9 @@
   instances of earlier releases.
 - Setup now waits until the running instance has really exited (and
   `SNAPHOOK.DLL` is unloaded) before overwriting or deleting files.
-- New portable `makefile` for Open Watcom `wmake` (DOS, Windows, OS/2,
-  Linux) replaces the Linux-only build script.
+- New `makefile` for Open Watcom `wmake`, written to be portable across
+  the hosts Open Watcom runs on (tested on Linux), replaces the Linux-only
+  build script.
 - Developer documentation (`README.md`) and test programs.
 - Released as free software under the MIT License. Every binary carries
   version, author and license information (`VERSIONINFO`); the applet and

@@ -8,7 +8,7 @@
 #include "lang.h"
 #include "resource.h"
 
-#define VI_DESCRIPTION "SnapWin Control Panel applet"
+#define VI_DESCRIPTION "SnapWin Control Panel applet\0"   /* 28 chars: see version.rc */
 #define VI_FILENAME    "SNAPCFG.CPL"
 #define VI_FILETYPE    VFT_DLL
 #include "version.rc"

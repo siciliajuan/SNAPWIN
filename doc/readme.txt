@@ -1,4 +1,4 @@
-SnapWin 2.5 - Window snapping for Windows 3.1 / 3.11
+SnapWin 2.6 - Window snapping for Windows 3.1 / 3.11
 =====================================================
 
 WHAT IT DOES
@@ -25,8 +25,10 @@ From the keyboard (active window; configurable):
   work too.)
 
 Fixed-size windows (Calculator, dialog boxes) are not resized: they are
-only moved to the matching side or corner, and are never maximized or
-minimized.
+only moved to the matching side or corner.
+Only windows with a maximize button can be maximized, and only windows
+with a minimize button can be minimized (the Calculator, for example,
+can be minimized but not maximized).
 MDI windows (documents inside an application) are not touched.
 
 REQUIREMENTS
@@ -75,7 +77,7 @@ LEEME.TXT     This file in Spanish
 LICENSE.TXT   License (MIT)
 
 Source code, history and updates:
-https://github.com/<user>/snapwin
+https://github.com/siciliajuan/snapwin
 
 AUTHOR AND LICENSE
 Copyright (c) 2026 Juan Sicilia

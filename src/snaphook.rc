@@ -6,7 +6,7 @@
  */
 #include <windows.h>
 
-#define VI_DESCRIPTION "SnapWin system hooks"
-#define VI_FILENAME    "SNAPHOOK.DLL"
+#define VI_DESCRIPTION "SnapWin system hooks\0"   /* 20 chars: see version.rc */
+#define VI_FILENAME    "SNAPHOOK.DLL\0"           /* 12 chars: see version.rc */
 #define VI_FILETYPE    VFT_DLL
 #include "version.rc"
