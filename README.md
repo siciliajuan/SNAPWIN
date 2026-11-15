@@ -7,6 +7,9 @@ or is maximized; shortcuts also restore and minimize it.
 **[Download the latest version](https://github.com/siciliajuan/snapwin/releases/latest)**
 (`SNAPW27.ZIP`, ready to install: no compiling needed)
 
+
+![SnapWin in action: drag to an edge, a corner, the top, and keyboard shortcuts (recorded under Wine)](doc/snapwin-demo.gif)
+
 ![SnapWin settings dialog, opened from Control Panel (screenshot taken under Wine)](doc/applet.png)
 
 - **Halves**: drop a window on the left or right edge of the screen.
