@@ -36,8 +36,6 @@
 #define IDS_CPL_INFO         2
 #define IDS_CPL_CAPTION      10   /* %s = version */
 #define IDS_CPL_LICENSE      11   /* %s = copyright notice */
-#define IDS_CPL_RUNNING      12
-#define IDS_CPL_STOPPED      13
 #define IDS_CPL_ERR_NOMOD    14   /* %s = row name */
 #define IDS_CPL_ERR_DUP      15   /* %s, %s = row names */
 #define IDS_CPL_LANG_AUTO    16

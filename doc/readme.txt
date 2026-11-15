@@ -1,4 +1,4 @@
-SnapWin 2.6 - Window snapping for Windows 3.1 / 3.11
+SnapWin 2.7 - Window snapping for Windows 3.1 / 3.11
 =====================================================
 
 WHAT IT DOES
@@ -47,8 +47,8 @@ SnapWin has no window, no icon and does not appear in the Task List.
 
 SETTINGS
 Control Panel > "SnapWin" icon:
-- Turn snapping to halves (side edges), to quarters (corners) and
-  maximizing (top edge) on or off separately.
+- Turn snapping by dragging on or off (halves, quarters and maximize,
+  all together).
 - Choose the key and modifiers (Ctrl, Alt, Shift) of each of the nine
   shortcuts, or "(none)" to disable one.
   Every shortcut must include Ctrl or Alt, and no two may be the same.

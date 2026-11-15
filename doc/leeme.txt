@@ -1,4 +1,4 @@
-SnapWin 2.6 - Ajuste de ventanas para Windows 3.1 / 3.11
+SnapWin 2.7 - Ajuste de ventanas para Windows 3.1 / 3.11
 =========================================================
 
 QUÉ HACE
@@ -49,8 +49,8 @@ SnapWin no tiene ventana ni icono, y no aparece en la Lista de tareas.
 
 CONFIGURACIÓN
 Panel de control > icono "SnapWin":
-- Activar o desactivar por separado el ajuste a mitades (bordes
-  laterales), a cuadrantes (esquinas) y la maximización (borde superior).
+- Activar o desactivar el ajuste al arrastrar (mitades, cuadrantes y
+  maximizar, todo a la vez).
 - Elegir la tecla y los modificadores (Ctrl, Alt, Mayús) de cada uno de
   los nueve atajos, o "(ninguna)" para desactivarlo.
   Cada atajo debe llevar Ctrl o Alt, y no puede haber dos iguales.

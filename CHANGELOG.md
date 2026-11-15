@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.7
+
+- Applet fixed for 640x480: on real Windows 3.1 its lower part, including
+  the OK and Cancel buttons, was off screen. It is now 200 dialog units
+  tall (was 260).
+- A single "snap when dragging" checkbox replaces the three separate ones
+  (halves, quarters, maximize). It shows checked if any of the three was
+  on, and OK applies its state to all three.
+- The status line ("SnapWin is running") was removed from the applet.
+
 ## 2.6
 
 - The project URL (https://github.com/siciliajuan/snapwin) replaces a

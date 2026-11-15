@@ -7,11 +7,8 @@
  */
 #define IDI_SNAPWIN      1
 
-#define IDC_DRAG         101   /* halves when dropping on an edge */
-#define IDC_CORNERS      102   /* quarters when dropping in a corner */
+#define IDC_DRAG         101   /* snap when dragging (halves, quarters, maximize) */
 #define IDC_LANG         103   /* language drop-down list */
-#define IDC_MAXIMIZE     104   /* maximize when dropping on the top edge */
-#define IDC_STATUS       130
 #define IDC_COPYRIGHT    131   /* author / license line */
 
 /* Shortcut row i (i = 0..8, same order as SNAP_*):

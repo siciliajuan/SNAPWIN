@@ -5,7 +5,7 @@ or corner, or press a shortcut, and it fills half or a quarter of the screen,
 or is maximized; shortcuts also restore and minimize it.
 
 **[Download the latest version](https://github.com/siciliajuan/snapwin/releases/latest)**
-(`SNAPW26.ZIP`, ready to install: no compiling needed)
+(`SNAPW27.ZIP`, ready to install: no compiling needed)
 
 ![SnapWin settings dialog, opened from Control Panel (screenshot taken under Wine)](doc/applet.png)
 
@@ -157,6 +157,8 @@ Stored in the Windows directory:
 DragHalves=1          ; drop on left/right edge -> half
 DragCorners=1         ; drop in a corner -> quarter
 DragMaximize=1        ; drop on the top edge -> maximize
+                      ; (the applet has one checkbox for these three: it
+                      ;  shows checked if any is 1 and saves all three)
 LeftKey=37            ; virtual-key code (VK_LEFT), 0 = no shortcut
 LeftMods=6            ; 1 = Shift, 2 = Ctrl, 4 = Alt  (6 = Ctrl+Alt)
 RightKey=39
@@ -260,6 +262,11 @@ These caused real bugs or near misses in this project:
   is misplaced: in 2.2-2.5 Windows' `VER.DLL` could read only the first
   field. `src/version.rc` explains the workaround (an explicit `\0` inside
   the string for those lengths); `tests/vercheck.py` checks it.
+- **Wine draws dialogs smaller.** A dialog unit is about 2 pixels high on
+  real Windows 3.1 but about 1.75 under Wine at its default 96 DPI. In 2.6
+  the applet fitted 640x480 under Wine but its buttons were off screen on
+  real hardware. The dialog is now 200 units tall, and the Wine setup
+  below reproduces the real size.
 - **Swallowed shortcuts.** The keyboard hook returns 1 for a matching key,
   so the application never sees it. That is why the applet refuses
   shortcuts without Ctrl or Alt: a bare key would stop working everywhere.
@@ -301,6 +308,10 @@ application.
 - Use a virtual desktop so window positions behave like a real screen:
   `wine explorer /desktop=snap,800x600 HOOKTEST.EXE`
 - `WINEDEBUG=+debugstr` shows `OutputDebugString` output.
+- To see dialogs at the size real Windows 3.1 draws them, set Wine to
+  110 DPI (calibrated against a photo of the 2.6 applet on a Pentium at
+  640x480):
+  `wine reg add "HKCU\Control Panel\Desktop" /v LogPixels /t REG_DWORD /d 110 /f`
 - To test another Windows language, change Wine's equivalent of
   `[intl] sLanguage`:
   `wine reg add "HKCU\Control Panel\International" /v sLanguage /d esp /f`
@@ -312,6 +323,8 @@ Manual checklist before a release:
       to all four corners via both edges
 - [ ] A normal drag (not at an edge) does not snap
 - [ ] Applet icon appears in Control Panel **with SnapWin running**
+- [ ] The whole applet, OK and Cancel included, is visible at 640x480 on
+      real Windows 3.1 (or under Wine at 110 DPI), in both languages
 - [ ] Applet validation: shortcut without Ctrl/Alt, duplicate shortcuts
 - [ ] Upgrade over the previous release while it is running; settings kept
 - [ ] Uninstall while running; `load=` keeps other programs

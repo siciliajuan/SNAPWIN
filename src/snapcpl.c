@@ -118,13 +118,6 @@ static void GetRow(HWND hDlg, int i, UINT FAR *key, UINT FAR *mods)
     *key  = GetKeyCombo(hDlg, IDC_KEY(i));
 }
 
-static void UpdateStatus(HWND hDlg)
-{
-    char buf[128];
-    SetDlgItemText(hDlg, IDC_STATUS,
-        Str(FindWindow(SNAPWIN_CLASS, NULL) ? IDS_CPL_RUNNING : IDS_CPL_STOPPED, buf, sizeof(buf)));
-}
-
 /* Language list: "Automatic", then each language under its own name */
 static void FillLangCombo(HWND hDlg)
 {
@@ -182,12 +175,11 @@ BOOL __export FAR PASCAL ConfigDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
         SetDlgItemText(hDlg, IDC_COPYRIGHT, buf);
         FillLangCombo(hDlg);
         SnapReadConfig(&c);
-        CheckDlgButton(hDlg, IDC_DRAG,    c.bDrag);
-        CheckDlgButton(hDlg, IDC_CORNERS, c.bCorners);
-        CheckDlgButton(hDlg, IDC_MAXIMIZE, c.bMaximize);
+        /* One checkbox for the three drag options: checked if any is on;
+           OK applies its state to all three */
+        CheckDlgButton(hDlg, IDC_DRAG, c.bDrag || c.bCorners || c.bMaximize);
         for (i = 0; i < SNAP_COUNT; i++)
             SetRow(hDlg, i, c.key[i], c.mods[i]);
-        UpdateStatus(hDlg);
         return TRUE;
     }
 
@@ -195,9 +187,9 @@ BOOL __export FAR PASCAL ConfigDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
         switch (wParam) {
         case IDOK: {
             HWND hSnap;
-            c.bDrag    = IsDlgButtonChecked(hDlg, IDC_DRAG);
-            c.bCorners  = IsDlgButtonChecked(hDlg, IDC_CORNERS);
-            c.bMaximize = IsDlgButtonChecked(hDlg, IDC_MAXIMIZE);
+            c.bDrag     = IsDlgButtonChecked(hDlg, IDC_DRAG);
+            c.bCorners  = c.bDrag;
+            c.bMaximize = c.bDrag;
             for (i = 0; i < SNAP_COUNT; i++)
                 GetRow(hDlg, i, &c.key[i], &c.mods[i]);
             if (!Validate(hDlg, &c))
