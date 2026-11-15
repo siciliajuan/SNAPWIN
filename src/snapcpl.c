@@ -184,6 +184,7 @@ BOOL __export FAR PASCAL ConfigDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
         SnapReadConfig(&c);
         CheckDlgButton(hDlg, IDC_DRAG,    c.bDrag);
         CheckDlgButton(hDlg, IDC_CORNERS, c.bCorners);
+        CheckDlgButton(hDlg, IDC_MAXIMIZE, c.bMaximize);
         for (i = 0; i < SNAP_COUNT; i++)
             SetRow(hDlg, i, c.key[i], c.mods[i]);
         UpdateStatus(hDlg);
@@ -195,7 +196,8 @@ BOOL __export FAR PASCAL ConfigDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
         case IDOK: {
             HWND hSnap;
             c.bDrag    = IsDlgButtonChecked(hDlg, IDC_DRAG);
-            c.bCorners = IsDlgButtonChecked(hDlg, IDC_CORNERS);
+            c.bCorners  = IsDlgButtonChecked(hDlg, IDC_CORNERS);
+            c.bMaximize = IsDlgButtonChecked(hDlg, IDC_MAXIMIZE);
             for (i = 0; i < SNAP_COUNT; i++)
                 GetRow(hDlg, i, &c.key[i], &c.mods[i]);
             if (!Validate(hDlg, &c))

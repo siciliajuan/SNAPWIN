@@ -9,8 +9,8 @@
 #define VERSION_H
 
 #define SNAPWIN_VER_MAJOR  2
-#define SNAPWIN_VER_MINOR  3
-#define SNAPWIN_VERSION    "2.3"
+#define SNAPWIN_VER_MINOR  5
+#define SNAPWIN_VERSION    "2.5"
 
 #define SNAPWIN_AUTHOR     "Juan Sicilia"
 #define SNAPWIN_COPYRIGHT  "Copyright (c) 2026 Juan Sicilia"

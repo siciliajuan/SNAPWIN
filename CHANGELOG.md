@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.5
+
+- Ctrl+Alt+F now only maximizes (in 2.4 it also restored a maximized
+  window).
+- New shortcuts: Ctrl+Alt+R restores a maximized or minimized window, and
+  Ctrl+Alt+Down Arrow minimizes. Restore does nothing on a window that is
+  already restored.
+- Applet: nine shortcut rows, in a more compact layout that still fits
+  a 640x480 screen.
+
+## 2.4
+
+- Maximize: drop a window on the top edge of the screen (away from the
+  corners, which still give the top quarters), or press Ctrl+Alt+F. The
+  shortcut restores a window that is already maximized.
+- The applet has a new option to turn top-edge maximizing on or off, and
+  a seventh shortcut row.
+- Only windows with a maximize button are maximized.
+
 ## 2.3
 
 - Internationalisation: the user interface is available in English

@@ -42,7 +42,10 @@
 #define SNAP_TOPRIGHT     4   /* top-right quarter */
 #define SNAP_BOTLEFT      5   /* bottom-left quarter */
 #define SNAP_BOTRIGHT     6   /* bottom-right quarter */
-#define SNAP_COUNT        6
+#define SNAP_MAXIMIZE     7   /* maximize */
+#define SNAP_RESTORE      8   /* restore a maximized or minimized window */
+#define SNAP_MINIMIZE     9   /* minimize */
+#define SNAP_COUNT        9
 
 /* Shortcut modifier flags */
 #define SMOD_SHIFT        0x0001
@@ -58,6 +61,7 @@
 typedef struct tagSNAPCFG {
     BOOL bDrag;              /* halves: drop on the left/right edge */
     BOOL bCorners;           /* quarters: drop in a corner */
+    BOOL bMaximize;          /* maximize: drop on the top edge (outside the corners) */
     UINT key[SNAP_COUNT];    /* virtual-key code of each shortcut (0 = none) */
     UINT mods[SNAP_COUNT];   /* SMOD_* flags of each shortcut */
 } SNAPCFG;

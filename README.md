@@ -1,12 +1,17 @@
 # SnapWin
 
 Window snapping for **Windows 3.1 / 3.11**: drag a window to a screen edge
-or corner, or press a shortcut, and it fills half or a quarter of the screen.
+or corner, or press a shortcut, and it fills half or a quarter of the screen,
+or is maximized; shortcuts also restore and minimize it.
+
+**[Download the latest version](https://github.com/<user>/snapwin/releases/latest)**
+(`SNAPW25.ZIP`, ready to install: no compiling needed)
 
 ![SnapWin applet in Control Panel](doc/applet.png)
 
 - **Halves**: drop a window on the left or right edge of the screen.
 - **Quarters**: drop it in a corner.
+- **Maximize**: drop it on the top edge, away from the corners.
 - **Shortcuts** for the active window (defaults; configurable):
 
   | Shortcut               | Position              |
@@ -17,13 +22,16 @@ or corner, or press a shortcut, and it fills half or a quarter of the screen.
   | Ctrl+Alt+Page Up       | Top-right quarter     |
   | Ctrl+Alt+End           | Bottom-left quarter   |
   | Ctrl+Alt+Page Down     | Bottom-right quarter  |
+  | Ctrl+Alt+F             | Maximize              |
+  | Ctrl+Alt+R             | Restore               |
+  | Ctrl+Alt+Down Arrow    | Minimize              |
 
 - **Configured from Control Panel**, with changes applied immediately.
 - **English and Spanish**: follows the Windows language setting, English
   by default; new languages can be added without touching the C code.
 - **Invisible once installed**: starts with Windows, with no window, no
   icon and no Task List entry.
-- **Tiny**: about 26 KB in total, written in C against the Win16 API.
+- **Tiny**: about 28 KB in total, written in C against the Win16 API.
 
 Requires Windows 3.1 or later (Windows 3.0 has no `SetWindowsHookEx`).
 Earlier releases were tested on a Pentium running Windows 3.1; every release
@@ -31,8 +39,12 @@ is tested under Wine (see [Testing](#testing)).
 
 ## Installing
 
-Copy the files in `dist/` (or the release archive) to a floppy or a
-directory, then in Program Manager choose **File > Run > SETUP.EXE**.
+1. Download `SNAPWxx.ZIP` from the
+   [latest release](https://github.com/<user>/snapwin/releases/latest).
+2. Unzip it (on a modern PC or with PKUNZIP) and copy the files to a
+   floppy or to a directory on the Windows 3.1 machine.
+3. In Program Manager choose **File > Run > SETUP.EXE**.
+
 Run `SETUP.EXE` again to upgrade or uninstall. End-user documentation is in
 [`doc/readme.txt`](doc/readme.txt) (English) and
 [`doc/leeme.txt`](doc/leeme.txt) (Spanish), shipped as `README.TXT` and
@@ -84,7 +96,7 @@ The build should finish with no warnings: warnings are treated as errors
                                                   | PostMessage(WM_SNAP_DO,
                                                   |   position, hwnd)
                                                   v
-   SNAPWIN.EXE  hidden window --> SetWindowPos(hwnd, half/quarter)
+   SNAPWIN.EXE  hidden window --> SetWindowPos / ShowWindow(hwnd, ...)
         ^
         | WM_SNAP_RELOAD                    SNAPWIN.INI
    SNAPCFG.CPL  Control Panel applet  <-->  (read by the DLL and the applet)
@@ -119,8 +131,20 @@ windows. The `WH_CALLWNDPROC` hook watches each window's messages:
    `WM_WINDOWPOSCHANGED` messages are ignored and `WM_EXITSIZEMOVE` ends
    the drag.
 
+Where the window is dropped decides the action, checked in this order:
+
+| Cursor position when dropped                             | Action      |
+|----------------------------------------------------------|-------------|
+| Corner zone (on any edge, within the zone of a corner)    | Quarter     |
+| Left or right edge, elsewhere                             | Half        |
+| Top edge, elsewhere                                       | Maximize    |
+
 The corner zone is `1/SNAP_CORNER_DIV` of the screen (minimum
-`SNAP_CORNER_MIN` pixels); both are in `snapwin.h`.
+`SNAP_CORNER_MIN` pixels); both are in `snapwin.h`. Checking corners first
+is what keeps the top quarters reachable along the top edge.
+Maximize and minimize apply only to windows with a maximize / minimize
+button. Restore applies only to a maximized or minimized active window; on a
+window that is already restored it does nothing.
 
 ### Settings: `SNAPWIN.INI`
 
@@ -130,6 +154,7 @@ Stored in the Windows directory:
 [SnapWin]
 DragHalves=1          ; drop on left/right edge -> half
 DragCorners=1         ; drop in a corner -> quarter
+DragMaximize=1        ; drop on the top edge -> maximize
 LeftKey=37            ; virtual-key code (VK_LEFT), 0 = no shortcut
 LeftMods=6            ; 1 = Shift, 2 = Ctrl, 4 = Alt  (6 = Ctrl+Alt)
 RightKey=39
@@ -142,6 +167,12 @@ BottomLeftKey=35      ; VK_END
 BottomLeftMods=6
 BottomRightKey=34     ; VK_NEXT (Page Down)
 BottomRightMods=6
+MaximizeKey=70        ; 'F'
+MaximizeMods=6
+RestoreKey=82         ; 'R'
+RestoreMods=6
+MinimizeKey=40        ; VK_DOWN
+MinimizeMods=6
 Language=auto         ; auto (follow Windows), en, es
 ```
 
@@ -193,7 +224,7 @@ name and description for it are translated. Message box buttons
 
 Two limits to keep in mind: a Win16 string resource holds at most
 **255 characters** (longer ones are silently truncated by the resource
-compiler, so split them as `IDS_SETUP_DONE` / `IDS_SETUP_DONE2` are), and
+compiler, so split them as `IDS_SETUP_DONE`...`IDS_SETUP_DONE3` are), and
 `wsprintf` output is limited to 1024 characters.
 
 ## Win16 pitfalls
@@ -258,8 +289,9 @@ application.
 
 Manual checklist before a release:
 
-- [ ] All six shortcuts, on a resizable and a fixed-size window
-- [ ] Drag to both edges (mid-height) and to all four corners via both edges
+- [ ] All nine shortcuts, on a resizable and a fixed-size window
+- [ ] Drag to both side edges (mid-height), to the top edge (middle), and
+      to all four corners via both edges
 - [ ] A normal drag (not at an edge) does not snap
 - [ ] Applet icon appears in Control Panel **with SnapWin running**
 - [ ] Applet validation: shortcut without Ctrl/Alt, duplicate shortcuts

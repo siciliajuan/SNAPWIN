@@ -1,10 +1,11 @@
-SnapWin 2.3 - Window snapping for Windows 3.1 / 3.11
+SnapWin 2.5 - Window snapping for Windows 3.1 / 3.11
 =====================================================
 
 WHAT IT DOES
 Drag a window and drop it:
 - On the left or right edge of the screen: it fills that half.
 - In a corner: it fills that quarter of the screen.
+- On the top edge (away from the corners): it is maximized.
   Dropping on the left/right edge near the top or bottom, or on the
   top/bottom edge near a side, counts as a corner (the corner zone is
   1/8 of the screen).
@@ -16,12 +17,16 @@ From the keyboard (active window; configurable):
 - Ctrl+Alt+Page Up ............ top-right quarter
 - Ctrl+Alt+End ................ bottom-left quarter
 - Ctrl+Alt+Page Down .......... bottom-right quarter
+- Ctrl+Alt+F .................. maximize
+- Ctrl+Alt+R .................. restore a maximized or minimized window
+- Ctrl+Alt+Down Arrow ......... minimize
   (Home, Page Up, End and Page Down form a square laid out like the
   quarters. With Num Lock off, keys 7, 9, 1 and 3 on the numeric keypad
   work too.)
 
 Fixed-size windows (Calculator, dialog boxes) are not resized: they are
-only moved to the matching side or corner.
+only moved to the matching side or corner, and are never maximized or
+minimized.
 MDI windows (documents inside an application) are not touched.
 
 REQUIREMENTS
@@ -40,9 +45,9 @@ SnapWin has no window, no icon and does not appear in the Task List.
 
 SETTINGS
 Control Panel > "SnapWin" icon:
-- Turn snapping to halves (edges) and to quarters (corners) on or off
-  separately.
-- Choose the key and modifiers (Ctrl, Alt, Shift) of each of the six
+- Turn snapping to halves (side edges), to quarters (corners) and
+  maximizing (top edge) on or off separately.
+- Choose the key and modifiers (Ctrl, Alt, Shift) of each of the nine
   shortcuts, or "(none)" to disable one.
   Every shortcut must include Ctrl or Alt, and no two may be the same.
   Ctrl+Alt+key is recommended: Alt-only shortcuts can activate the

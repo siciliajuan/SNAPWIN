@@ -41,7 +41,7 @@
 #define IDS_CPL_ERR_NOMOD    14   /* %s = row name */
 #define IDS_CPL_ERR_DUP      15   /* %s, %s = row names */
 #define IDS_CPL_LANG_AUTO    16
-#define IDS_CPL_ROW_BASE     20   /* 20..25: row names used in messages */
+#define IDS_CPL_ROW_BASE     20   /* 20..28: row names used in messages */
 #define IDS_KEY_BASE         100  /* 100..: key names, same order as g_keys */
 
 /* SETUP.EXE */
@@ -53,7 +53,8 @@
 #define IDS_SETUP_DONE       305
 #define IDS_SETUP_REMOVED    306
 #define IDS_SETUP_PARTIAL    307
-#define IDS_SETUP_DONE2      308  /* second half of IDS_SETUP_DONE */
+#define IDS_SETUP_DONE2      308  /* IDS_SETUP_DONE continues here... */
+#define IDS_SETUP_DONE3      309  /* ...and here (255-character limit) */
 
 /* SNAPWIN.EXE */
 #define IDS_SNAP_NOHOOKS     400

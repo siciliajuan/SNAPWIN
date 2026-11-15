@@ -8,8 +8,9 @@
  *  - WH_KEYBOARD   : detects the configured shortcuts and notifies SNAPWIN.EXE.
  *  - WH_CALLWNDPROC: detects the start of a drag (WM_SYSCOMMAND/SC_MOVE) and
  *                    its end (WM_WINDOWPOSCHANGED or WM_EXITSIZEMOVE). If the
- *                    cursor is in a corner or on the left/right edge when the
- *                    window is dropped, it notifies SNAPWIN.EXE.
+ *                    cursor is in a corner, on the left/right edge or on the
+ *                    top edge when the window is dropped, it notifies
+ *                    SNAPWIN.EXE.
  *
  * The hooks never move windows themselves: they post WM_SNAP_DO to the hidden
  * window of SNAPWIN.EXE, which does the work outside the hooked application.
@@ -99,6 +100,8 @@ static BOOL MainButtonDown(void)
  *  - Corner (on the left/right edge near the top/bottom, or on the
  *    top/bottom edge near the left/right)  -> quarter
  *  - Anywhere else on the left/right edge  -> half
+ *  - Anywhere else on the top edge         -> maximize
+ * Corners are checked first, so the corner zones keep working as before.
  */
 static void CheckEdgeAndSnap(HWND hwnd)
 {
@@ -128,6 +131,8 @@ static void CheckEdgeAndSnap(HWND hwnd)
         if (atL)      pos = SNAP_LEFT;
         else if (atR) pos = SNAP_RIGHT;
     }
+    if (!pos && g_cfg.bMaximize && atT)
+        pos = SNAP_MAXIMIZE;
     if (pos)
         PostMessage(g_hNotify, WM_SNAP_DO, (WPARAM)pos, MAKELPARAM((UINT)hwnd, 0));
 }
@@ -154,7 +159,7 @@ LRESULT __export FAR PASCAL SnapKbdProc(int code, WPARAM wParam, LPARAM lParam)
 
 LRESULT __export FAR PASCAL SnapCwpProc(int code, WPARAM wParam, LPARAM lParam)
 {
-    if (code >= 0 && g_hNotify && (g_cfg.bDrag || g_cfg.bCorners) && lParam) {
+    if (code >= 0 && g_hNotify && (g_cfg.bDrag || g_cfg.bCorners || g_cfg.bMaximize) && lParam) {
         LPCWPSTRUCT16 p = (LPCWPSTRUCT16)lParam;
 
         if (p->message == WM_SYSCOMMAND && (p->wParam & 0xFFF0) == SC_MOVE) {

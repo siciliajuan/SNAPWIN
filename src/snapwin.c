@@ -20,6 +20,8 @@ LRESULT __export FAR PASCAL SnapWndProc(HWND, UINT, WPARAM, LPARAM);
  * Moves the window to the requested position (SNAP_*).
  * Resizable window -> half or quarter of the screen.
  * Fixed-size window (dialogs, Calculator...) -> only pushed to that side/corner.
+ * SNAP_MAXIMIZE / SNAP_MINIMIZE -> only windows with a maximize / minimize
+ * button. SNAP_RESTORE -> only maximized or minimized windows.
  */
 static void SnapWindow(HWND hwnd, int pos)
 {
@@ -36,6 +38,21 @@ static void SnapWindow(HWND hwnd, int pos)
     style = GetWindowLong(hwnd, GWL_STYLE);
     if (style & WS_CHILD)            /* MDI children and controls are left alone */
         return;
+
+    switch (pos) {
+    case SNAP_MAXIMIZE:
+        if ((style & WS_MAXIMIZEBOX) && !IsZoomed(hwnd))
+            ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+        return;
+    case SNAP_RESTORE:
+        if (IsZoomed(hwnd) || IsIconic(hwnd))   /* already restored: nothing */
+            ShowWindow(hwnd, SW_RESTORE);
+        return;
+    case SNAP_MINIMIZE:
+        if ((style & WS_MINIMIZEBOX) && !IsIconic(hwnd))
+            ShowWindow(hwnd, SW_MINIMIZE);
+        return;
+    }
 
     if (IsIconic(hwnd) || IsZoomed(hwnd))
         ShowWindow(hwnd, SW_RESTORE);

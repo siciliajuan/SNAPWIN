@@ -23,17 +23,24 @@ static char      g_srcDir[144];
 static char      g_sysDir[144];
 static char      g_title[64];
 
-/* Message box with a string resource, optionally followed by a second one
-   (idMore, 0 = none: Win16 strings are limited to 255 characters) and
-   formatted with up to two string arguments */
-static int Msg(UINT id, UINT idMore, UINT flags, LPCSTR a1, LPCSTR a2)
+/* Message box with a string resource, optionally followed by up to two
+   more (idMore, idMore2; 0 = none: Win16 strings are limited to 255
+   characters) and formatted with up to two string arguments */
+static int Msg3(UINT id, UINT idMore, UINT idMore2, UINT flags, LPCSTR a1, LPCSTR a2)
 {
-    char fmt[600], text[700];
-    SnapLoadString(g_hInst, id, fmt, 300);
+    char fmt[800], text[900];
+    SnapLoadString(g_hInst, id, fmt, 256);
     if (idMore)
-        SnapLoadString(g_hInst, idMore, fmt + lstrlen(fmt), 300);
+        SnapLoadString(g_hInst, idMore, fmt + lstrlen(fmt), 256);
+    if (idMore2)
+        SnapLoadString(g_hInst, idMore2, fmt + lstrlen(fmt), 256);
     wsprintf(text, fmt, a1, a2);
     return MessageBox(NULL, text, g_title, flags);
+}
+
+static int Msg(UINT id, UINT flags, LPCSTR a1, LPCSTR a2)
+{
+    return Msg3(id, 0, 0, flags, a1, a2);
 }
 
 static void MakePath(LPSTR out, LPCSTR dir, LPCSTR file)
@@ -178,7 +185,7 @@ static void Install(void)
     DeleteOne(SNAPWIN_CPL_OLD);   /* 1.0 applet */
 
     if (!CopyOne(SNAPWIN_DLL) || !CopyOne(SNAPWIN_EXE) || !CopyOne(SNAPWIN_CPL)) {
-        Msg(IDS_SETUP_COPYFAIL, 0, MB_OK | MB_ICONSTOP, NULL, NULL);
+        Msg(IDS_SETUP_COPYFAIL, MB_OK | MB_ICONSTOP, NULL, NULL);
         return;
     }
     UpdateLoadLine(TRUE);
@@ -186,7 +193,7 @@ static void Install(void)
     MakePath(exe, g_sysDir, SNAPWIN_EXE);
     WinExec(exe, SW_SHOWNORMAL);
 
-    Msg(IDS_SETUP_DONE, IDS_SETUP_DONE2, MB_OK | MB_ICONINFORMATION, NULL, NULL);
+    Msg3(IDS_SETUP_DONE, IDS_SETUP_DONE2, IDS_SETUP_DONE3, MB_OK | MB_ICONINFORMATION, NULL, NULL);
 }
 
 static void Uninstall(void)
@@ -198,7 +205,7 @@ static void Uninstall(void)
     ok &= DeleteOne(SNAPWIN_DLL);
     ok &= DeleteOne(SNAPWIN_CPL);
     ok &= DeleteOne(SNAPWIN_CPL_OLD);
-    Msg(ok ? IDS_SETUP_REMOVED : IDS_SETUP_PARTIAL, 0, MB_OK | MB_ICONINFORMATION, NULL, NULL);
+    Msg(ok ? IDS_SETUP_REMOVED : IDS_SETUP_PARTIAL, MB_OK | MB_ICONINFORMATION, NULL, NULL);
 }
 
 int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow)
@@ -213,7 +220,7 @@ int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow)
         WORD v     = LOWORD(GetVersion());   /* low byte = major, high byte = minor */
         BYTE major = LOBYTE(v), minor = HIBYTE(v);
         if (major < 3 || (major == 3 && minor < 10)) {
-            Msg(IDS_SETUP_NEEDWIN31, 0, MB_OK | MB_ICONSTOP, NULL, NULL);
+            Msg(IDS_SETUP_NEEDWIN31, MB_OK | MB_ICONSTOP, NULL, NULL);
             return 1;
         }
     }
@@ -225,11 +232,11 @@ int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow)
     GetSystemDirectory(g_sysDir, sizeof(g_sysDir));
 
     if (IsInstalled()) {
-        int r = Msg(IDS_SETUP_ALREADY, 0, MB_YESNOCANCEL | MB_ICONQUESTION, SNAPWIN_VERSION, NULL);
+        int r = Msg(IDS_SETUP_ALREADY, MB_YESNOCANCEL | MB_ICONQUESTION, SNAPWIN_VERSION, NULL);
         if (r == IDYES) Install();
         else if (r == IDNO) Uninstall();
     } else {
-        if (Msg(IDS_SETUP_ASK, 0, MB_YESNO | MB_ICONQUESTION, SNAPWIN_VERSION, SNAPWIN_COPYRIGHT) == IDYES)
+        if (Msg(IDS_SETUP_ASK, MB_YESNO | MB_ICONQUESTION, SNAPWIN_VERSION, SNAPWIN_COPYRIGHT) == IDYES)
             Install();
     }
     return 0;

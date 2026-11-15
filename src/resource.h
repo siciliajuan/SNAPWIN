@@ -10,10 +10,11 @@
 #define IDC_DRAG         101   /* halves when dropping on an edge */
 #define IDC_CORNERS      102   /* quarters when dropping in a corner */
 #define IDC_LANG         103   /* language drop-down list */
+#define IDC_MAXIMIZE     104   /* maximize when dropping on the top edge */
 #define IDC_STATUS       130
 #define IDC_COPYRIGHT    131   /* author / license line */
 
-/* Shortcut row i (i = 0..5, same order as SNAP_*):
+/* Shortcut row i (i = 0..8, same order as SNAP_*):
    IDC_ROW(i)+0 Ctrl, +1 Alt, +2 Shift, +3 key drop-down list */
 #define IDC_ROW_BASE     200
 #define IDC_ROW(i)       (IDC_ROW_BASE + (i) * 10)
